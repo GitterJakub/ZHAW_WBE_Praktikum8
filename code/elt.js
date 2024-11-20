@@ -9,3 +9,5 @@ function elt (type, attrs, ...children) {
   }
   return node
 }
+
+module.exports = {elt}

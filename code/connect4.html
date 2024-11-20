@@ -5,7 +5,6 @@
   <title>Vier gewinnt</title>
 
   <style>
-
     div {
       box-sizing: border-box;
     }
@@ -14,24 +13,24 @@
       width: 84vw;
       margin: auto;
       outline: 1px solid black;
-   }
+      display: grid;
+      grid-template-columns: repeat(7, 12vw);
+      grid-template-rows: repeat(6, 12vw);
+    }
 
     .board .field {
       border: 1px solid black;
       width: 12vw;
       height: 12vw;
-      display: none;
-    }
-
-    .board .field:first-child {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .board .field .piece {
       width: 10vw;
       height: 10vw;
       border-radius: 50%;
-      margin: 1vw;
     }
     .board .field .blue {
       background-color: blue;
@@ -41,27 +40,60 @@
     }
 
   </style>
-
-
 </head>
 <body>
 
-  <div class="board">
-
-    <div class="field"><div class="blue piece"></div></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"><div class="red piece"></div></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-    <div class="field"></div>
-
-  </div>
+<div class="board">
+  <!-- Generate fields in a 6x7 grid -->
+  <!-- Row 1 -->
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <!-- Row 2 -->
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <!-- Row 3 -->
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <!-- Row 4 -->
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"><div class="blue piece"></div></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <!-- Row 5 -->
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <!-- Row 6 -->
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"><div class="red piece"></div></div>
+  <div class="field"></div>
+  <div class="field"></div>
+</div>
 
 </body>
 </html>
