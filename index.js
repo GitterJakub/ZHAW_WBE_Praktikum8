@@ -5,7 +5,10 @@ function showBoard() {
     // Create a 6x7 grid (6 rows, 7 columns)
     for (let row = 0; row < 6; row++) {
         for (let col = 0; col < 7; col++) {
-            const field = elt("div", {className: "field" });
+            const field = elt("div", {className: "field"});
+            field.addEventListener("click", () => {
+                console.log(`Row: ${row}, Col: ${col}`);
+            });
 
             // Add sample pieces as an example (blue at row 2, col 3; red at row 4, col 5)
             if (row === 1 && col === 2) {
@@ -30,5 +33,6 @@ function elt (type, props, ...children) {
     return dom;
 
 }
+
 
 showBoard();
