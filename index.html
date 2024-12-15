@@ -4,31 +4,32 @@
     <meta charset="UTF-8">
     <title>Vier gewinnt!</title>
     <style>
+
         div {
             box-sizing: border-box;
         }
 
         .board {
-            width: 84vw;
+            width: 35vw;
             margin: auto;
             outline: 1px solid black;
             display: grid;
-            grid-template-columns: repeat(7, 12vw);
-            grid-template-rows: repeat(6, 12vw);
+            grid-template-columns: repeat(7, 5vw);
+            grid-template-rows: repeat(6, 5vw);
         }
 
         .board .field {
             border: 1px solid black;
-            width: 12vw;
-            height: 12vw;
+            width: 5vw;
+            height: 5vw;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .board .field .piece {
-            width: 10vw;
-            height: 10vw;
+            width: 4vw;
+            height: 4vw;
             border-radius: 50%;
         }
         .board .field .blue {
@@ -40,6 +41,8 @@
     </style>
 </head>
 <body>
+    <button id="reset">Neues Spiel</button>
+    <p id="turn"></p>
     <div class="board" id="board">
     </div>
     <script src="index.js">
