@@ -1,0 +1,23 @@
+{
+  "name": "zhaw_wbe_praktikum8",
+  "version": "1.0.0",
+  "description": "Connect 4 Praktikum Jakub Baranec + Nghia Dao",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GitterJakub/ZHAW_WBE_Praktikum8.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GitterJakub/ZHAW_WBE_Praktikum8/issues"
+  },
+  "homepage": "https://github.com/GitterJakub/ZHAW_WBE_Praktikum8#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
