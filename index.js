@@ -1,7 +1,12 @@
 // Generate the board
 
-let state =  Array(6).fill(' ').map(() => Array(7).fill(' '));
-let currentPlayer = 'red';
+let state = JSON.parse(localStorage.getItem('gameState')) || Array(6).fill(' ').map(() => Array(7).fill(' '));
+let currentPlayer = localStorage.getItem('currentPlayer') || 'red';
+
+function saveGameState() {
+    localStorage.setItem('gameState', JSON.stringify(state));
+    localStorage.setItem('currentPlayer', currentPlayer);
+}
 
 function showBoard() {
     const board = document.getElementById("board");
@@ -11,12 +16,12 @@ function showBoard() {
     resetButton.addEventListener("click", () => {
         state = Array(6).fill(' ').map(() => Array(7).fill(' '));
         currentPlayer = 'red';
+        saveGameState();
         showBoard();
     });
 
     const currentPlayerP = document.getElementById("turn");
     currentPlayerP.innerHTML = `Current player: ${currentPlayer}`;
-
 
     // Create a 6x7 grid (6 rows, 7 columns)
     for (let row = 0; row < state.length; row++) {
@@ -53,7 +58,6 @@ function elt (type, props, ...children) {
         else dom.appendChild(document.createTextNode(child));
     }
     return dom;
-
 }
 
 function clickHandler(row, col) {
@@ -62,6 +66,7 @@ function clickHandler(row, col) {
         if (state[i][col] === ' ') {
             state[i][col] = currentPlayer;
             currentPlayer = currentPlayer === 'red' ? 'blue' : 'red';
+            saveGameState();
             break;
         }
     }
@@ -100,6 +105,5 @@ function connect4Winner(player, board) {
     }
     return false;
 }
-
 
 showBoard();
