@@ -10,6 +10,7 @@ async function fetchGameState() {
     currentPlayer = data.currentPlayer;
     history = data.history;
     finished = data.finished;
+    showBoard();
 }
 
 async function saveGameState() {
@@ -37,6 +38,14 @@ function showBoard() {
     const undoButton = document.getElementById("undo");
     undoButton.removeEventListener("click", undoLastMove);
     undoButton.addEventListener("click", undoLastMove);
+
+    const saveButton = document.getElementById("save");
+    saveButton.removeEventListener("click", saveGameState);
+    saveButton.addEventListener("click", saveGameState);
+
+    const loadButton = document.getElementById("load");
+    loadButton.removeEventListener("click", loadGameState);
+    loadButton.addEventListener("click", loadGameState);
 
     const currentPlayerP = document.getElementById("turn");
     currentPlayerP.innerHTML = `Current player: ${currentPlayer}`;
@@ -86,7 +95,6 @@ function clickHandler(row, col) {
             history.push({ row: i, col, player: currentPlayer });
             state[i][col] = currentPlayer;
             currentPlayer = currentPlayer === 'red' ? 'blue' : 'red';
-            saveGameState();
             break;
         }
     }
@@ -132,7 +140,6 @@ function undoLastMove() {
         state[lastMove.row][lastMove.col] = ' ';
         currentPlayer = lastMove.player;
         finished = false;
-        saveGameState();
         showBoard();
     }
 }
@@ -142,8 +149,19 @@ function resetGame() {
     currentPlayer = 'red';
     history = [];
     finished = false;
-    saveGameState();
     showBoard();
 }
 
-fetchGameState().then(showBoard);
+function saveGame() {
+    saveGameState();
+}
+
+function loadGameState() {
+    resetGame();
+    fetchGameState().then(() => {
+        showBoard();
+    });
+}
+
+// Load the initial game state
+fetchGameState();
