@@ -1,24 +1,39 @@
-let state = JSON.parse(localStorage.getItem('gameState')) || Array(6).fill(' ').map(() => Array(7).fill(' '));
-let currentPlayer = localStorage.getItem('currentPlayer') || 'red';
-let history = JSON.parse(localStorage.getItem('history')) || [];
-let finished = false
+let state = [];
+let currentPlayer = 'red';
+let history = [];
+let finished = false;
 
-function saveGameState() {
-    localStorage.setItem('gameState', JSON.stringify(state));
-    localStorage.setItem('currentPlayer', currentPlayer);
-    localStorage.setItem('history', JSON.stringify(history));
-    localStorage.setItem('finished', finished);
+async function fetchGameState() {
+    const response = await fetch('/gameState');
+    const data = await response.json();
+    state = data.gameState;
+    currentPlayer = data.currentPlayer;
+    history = data.history;
+    finished = data.finished;
+}
+
+async function saveGameState() {
+    await fetch('/gameState', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            newGameState: state,
+            newCurrentPlayer: currentPlayer,
+            newHistory: history,
+            newFinished: finished,
+        }),
+    });
 }
 
 function showBoard() {
     const board = document.getElementById("board");
     board.innerHTML = '';
-    // Create button to reset the game
     const resetButton = document.getElementById("reset");
     resetButton.removeEventListener("click", resetGame);
     resetButton.addEventListener("click", resetGame);
 
-    // Create button to undo the last move
     const undoButton = document.getElementById("undo");
     undoButton.removeEventListener("click", undoLastMove);
     undoButton.addEventListener("click", undoLastMove);
@@ -26,7 +41,6 @@ function showBoard() {
     const currentPlayerP = document.getElementById("turn");
     currentPlayerP.innerHTML = `Current player: ${currentPlayer}`;
 
-    // Create a 6x7 grid (6 rows, 7 columns)
     for (let row = 0; row < state.length; row++) {
         for (let col = 0; col < state[row].length; col++) {
             const field = elt("div", { className: "field" });
@@ -43,18 +57,16 @@ function showBoard() {
                 field.appendChild(elt("div", { className: "piece blue" }));
             }
 
-            // Add the field to the board
             board.appendChild(field);
         }
     }
 
-    // Check for winners and turn off alerts if undo
     if (connect4Winner('red', state)) {
         alert('Red wins!');
-        finished = true
+        finished = true;
     } else if (connect4Winner('blue', state)) {
         alert('Blue wins!');
-        finished = true
+        finished = true;
     }
 }
 
@@ -69,13 +81,9 @@ function elt(type, props, ...children) {
 }
 
 function clickHandler(row, col) {
-    // Find the first empty spot in the column
     for (let i = state.length - 1; i >= 0; i--) {
         if (state[i][col] === ' ') {
-            // Save the move in history
             history.push({ row: i, col, player: currentPlayer });
-
-            // Make the move
             state[i][col] = currentPlayer;
             currentPlayer = currentPlayer === 'red' ? 'blue' : 'red';
             saveGameState();
@@ -120,11 +128,10 @@ function connect4Winner(player, board) {
 
 function undoLastMove() {
     if (history.length > 0) {
-        const lastMove = history.pop(); // Retrieve the last move
-        state[lastMove.row][lastMove.col] = ' '; // Clear the last move
-        currentPlayer = lastMove.player; // Restore the previous player
-        console.log('Undo last move');
-        finished = false
+        const lastMove = history.pop();
+        state[lastMove.row][lastMove.col] = ' ';
+        currentPlayer = lastMove.player;
+        finished = false;
         saveGameState();
         showBoard();
     }
@@ -134,10 +141,9 @@ function resetGame() {
     state = Array(6).fill(' ').map(() => Array(7).fill(' '));
     currentPlayer = 'red';
     history = [];
-    console.log('Game reset');
-    finished = false
+    finished = false;
     saveGameState();
     showBoard();
 }
 
-showBoard();
+fetchGameState().then(showBoard);
